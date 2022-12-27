@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import {useDispatch, useSelector } from 'react-redux';
-import {getCountries, filterByContinent, filterByActivity, orderByName, orderByPopulation} from '../../Redux/actions';
+import {getCountries, getActivities, filterByContinent, filterByActivity, orderByName, orderByPopulation} from '../../Redux/actions';
 import { Link } from 'react-router-dom';
 import Card  from '../Card/Card';
 import Pagination from "../Pagination/Pagination";
@@ -12,6 +12,7 @@ export default function Home () {
 
     const dispatch = useDispatch();
     const allCountries = useSelector((state) => state.countries);
+    const activities = useSelector((state)  => state.activities)
     // console.log(allCountries)
 
     //Estados locales
@@ -34,6 +35,7 @@ export default function Home () {
     useEffect (() => {
         //despacho la acción
         dispatch(getCountries());
+        dispatch(getActivities());
     }, [dispatch]);
 
     const handleClick = (e) => {
@@ -101,6 +103,9 @@ export default function Home () {
                 <select onChange = {e => {handleFilterByActivity(e)}}>
                     {/* <option value='activitytype_asc'>País por tipo de actividad turística (Asc)</option>
                     <option value='activitytype_desc'>País por tipo de actividad (Desc)</option> */}
+                    {activities.map((a) => (
+                        <option value={a.name}>{a.name.charAt(0).toUpperCase() + a.name.slice(1)}</option>
+                    ))}
                 </select>
 
                 <select onChange = {e => {handleSortByPopulation(e)}}>
@@ -109,7 +114,16 @@ export default function Home () {
                 </select>
 
                 {
-                    currentCountries?.map (c => { return (<Card name = {c.name} image = {c.image} continent = {c.continent} id = {c.id} />) })
+                    currentCountries?.map (c => 
+                        { 
+                            return (
+                            <fragment>
+                                <Link to={`/countries/${c.id}`}>
+                                    <Card name = {c.name} image = {c.image} continent = {c.continent} id = {c.id} />
+                                </Link>
+                            </fragment>
+                            ) 
+                        })
                 }
                 {/* {console.log(allCountries)} */}
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_COUNTRIES, FILTER_BY_CONTINENT, FILTER_BY_ACTIVITY, ORDER_BY_NAME, ORDER_BY_POPULATION, CREATE_ACTIVITY, GET_BY_NAME} from '../action-types'
+import { GET_COUNTRIES, GET_COUNTRY_DETAIL, FILTER_BY_CONTINENT, FILTER_BY_ACTIVITY, ORDER_BY_NAME, ORDER_BY_POPULATION, CREATE_ACTIVITY, GET_BY_NAME, GET_ACTIVITIES} from '../action-types'
 
 export function getCountries () {
     return async function(dispatch) {
@@ -10,6 +10,21 @@ export function getCountries () {
         });
     };
 }; 
+
+export function getCountryDetail (id){
+    return async function(dispatch){
+        try {
+            let countryDetail = await axios.get(`http://localhost:3001/countries/${id}`)
+            console.log(countryDetail.data)
+            return dispatch({
+                type: GET_COUNTRY_DETAIL,
+                payload: countryDetail.data
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    };
+};
 
 export function getByName (name) {
     return async function (dispatch){
@@ -25,19 +40,27 @@ export function getByName (name) {
     };
 };
 
-export async function createActivity (payload) {
+export function getActivities (){
     return async function (dispatch){
-    try{
+        let activities = await axios.get('http://localhost:3001/activities')
+        console.log(activities.data)
+        return dispatch({
+            type: GET_ACTIVITIES,
+            payload: activities.data
+        });
+    };
+};
+
+export function createActivity (payload) {
+    return async function (dispatch){
         let activity = await axios.post('http://localhost:3001/activities', payload);
         console.log(activity)
-        return dispatch({
-            type: CREATE_ACTIVITY,
-            payload: activity.data
-        });
-    } catch (e) {
-        console.log(e)
-    }}
-};
+        // return dispatch({
+        //     type: CREATE_ACTIVITY,
+        //     payload: activity.data
+        // });
+        return activity;
+}};
 
 
 export function filterByContinent (continent) {

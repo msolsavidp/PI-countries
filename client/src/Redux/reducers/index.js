@@ -1,8 +1,9 @@
-import { GET_COUNTRIES, FILTER_BY_CONTINENT, FILTER_BY_ACTIVITY, ORDER_BY_NAME, ORDER_BY_POPULATION, CREATE_ACTIVITY, GET_BY_NAME} from '../action-types';
+import { GET_COUNTRIES, GET_ACTIVITIES, FILTER_BY_CONTINENT, FILTER_BY_ACTIVITY, ORDER_BY_NAME, ORDER_BY_POPULATION, CREATE_ACTIVITY, GET_BY_NAME, GET_COUNTRY_DETAIL} from '../action-types';
 
 
 const initialState = {
     countries: [],
+    countryDetail:[],
     allCountries: [],
     activities: []
 };
@@ -16,12 +17,23 @@ export default function rootReducer (state = initialState, action){
                 allCountries: action.payload
             };
 
+        case GET_COUNTRY_DETAIL:
+            return {
+                ...state,
+                countryDetail: action.payload
+            };
+
         case GET_BY_NAME:
             return {
                 ...state,
                 countries:action.payload
             };
-
+        
+        case GET_ACTIVITIES:
+            return {
+                ...state,
+                activities:action.payload
+            };
         
         case CREATE_ACTIVITY:
             return{
@@ -38,7 +50,7 @@ export default function rootReducer (state = initialState, action){
 
         case FILTER_BY_ACTIVITY:
             const countries = state.allCountries;
-            const countriesFilteredByActivity = !action.activity ? countries : countries.filter (c => c.activity.toLowerCase() === action.activity.toLowerCase());
+            const countriesFilteredByActivity = !action.activity ? countries : countries.filter (c => c.activities === action.activity);
             return{
                 ...state,
                 countries: countriesFilteredByActivity
