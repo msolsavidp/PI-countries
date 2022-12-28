@@ -21,9 +21,11 @@ export default function Home () {
     //Creo el estado local que me devuelva la página actual y me setee (cambie el estado) a la nueva página actual, en 1 porque allí se inicializa
     const [currentPage, setCurrentPage] = useState(1);
     //Guardo cuántos personajes quiero por página
+
+    const [countriesFirstPage, setCountriesFirstPage] = useState (9);
     const [countriesPerPage, setCountriesPerPage] = useState(10);
-    const indexOfLastCountry = currentPage * countriesPerPage; //10
-    const indexOfFirstCountry = indexOfLastCountry - countriesPerPage; //0
+    const indexOfLastCountry = currentPage === 1 ? currentPage * countriesFirstPage : currentPage * countriesPerPage; //10
+    const indexOfFirstCountry = currentPage === 1 ? indexOfLastCountry - countriesFirstPage : indexOfLastCountry - countriesPerPage; //0
     //Tomo el arreglo de todos los países y lo corto entre el indice del primer personaje y del último
     const currentCountries = allCountries.slice(indexOfFirstCountry, indexOfLastCountry);
     
@@ -56,7 +58,8 @@ export default function Home () {
     // };
 
     const handleFilterByActivity = (e) =>{
-        dispatch(filterByActivity(e.target.value))
+        dispatch(filterByActivity(e.target.value));
+        console.log(e.target.value)
     };
 
     const handleSort = (e) => {

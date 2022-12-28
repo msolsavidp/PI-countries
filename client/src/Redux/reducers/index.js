@@ -50,7 +50,8 @@ export default function rootReducer (state = initialState, action){
 
         case FILTER_BY_ACTIVITY:
             const countries = state.allCountries;
-            const countriesFilteredByActivity = !action.activity ? countries : countries.filter (c => c.activities === action.activity);
+            const countriesFilteredByActivity =  state.countries.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
+            console.log(countriesFilteredByActivity)
             return{
                 ...state,
                 countries: countriesFilteredByActivity

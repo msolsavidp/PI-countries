@@ -19,6 +19,7 @@ export default function SearchBar ( ){
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(getByName(country));
+                // setCountry('');
     };
 
     return (

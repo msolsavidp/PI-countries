@@ -12,7 +12,14 @@ router.get("/", async (req, res) => {
   ///DUDA: al momento del filtrado por query no me devuelve el país si no le pongo acento (ex. Japón) cómo  unifico los símbolos del string? ---> RESPUESTA el normalize unifica
     try {
         let countriesList = await Country.findAll({
-        attributes: ["image", "name", "continent", "population"],
+          include: {
+            model: Activity,
+            attributes: ["name", "difficulty", "duration", "season"],
+            through: {
+              attributes: [],
+            },
+          },
+        attributes: ["image", "name", "continent", "population", "id"],
         });
 
             if (name) {
@@ -38,7 +45,7 @@ router.get("/:id", async (req, res) => {
     let filteredCountries = await Country.findByPk(id, {
       include: {
         model: Activity,
-        attributes: ["name"],
+        attributes: ["name", "difficulty", "duration", "season"],
         through: {
           attributes: [],
         },

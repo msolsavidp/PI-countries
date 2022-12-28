@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { createActivity, getCountries } from "../../Redux/actions";
+import { createActivity, getCountries, getActivities } from "../../Redux/actions";
 
 function validate (input){
     let errors = {};
     if (!input.name){
         errors.name = 'The activity requires a name.';
-    } else if (input.difficulty<1 || input.difficulty>5){
-        errors.difficulty ='The activity requires a difficulty between 1-5'
-    } else if (!input.country){
+    } else if (!input.duration){
+        errors.duration ='The activity requires a duration'
+    } else if (!input.season){
+        errors.season = 'You need to choose a season for the activity.'
+    }else if (!input.country === []){
         errors.country = 'You need to choose a country.'
     };
-    return errors
+    return errors;
 };
 
 export default function CreateActivity () {
@@ -21,25 +23,29 @@ export default function CreateActivity () {
     const activities = useSelector(state => state.activities);
     const countries = useSelector(state => state.countries);
 
+    //Estado para manejar los checks
+    // const [isChecked, setIsChecked] = useState(false);
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState ({
         name: '', 
-        difficulty: null, 
-        duration: null, 
+        difficulty: '', 
+        duration: '', 
         season: '', 
         country: []
     });
 
     useEffect(() => {
         dispatch(getCountries());
-    }, []);
+        dispatch(getActivities());
+    }, [dispatch]);
 
     const handleChange = (e) => {
         setInput({
             ...input,
         [e.target.name] : e.target.value
         });
-        setErrors(validate({
+        setErrors(
+            validate({
             ...input,
             [e.target.name]: e.target.value
         }));
@@ -51,7 +57,7 @@ export default function CreateActivity () {
         setInput({
             ...input,
             season: e.target.value
-        })
+        });
         };
     };
 
@@ -87,6 +93,9 @@ export default function CreateActivity () {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(input);
+        if( input.name === '' || input.difficulty === '' || input.duration === '' || input.season === '' || input.country.length === 0)
+        return alert ('You need to complet all the fields.');
+
         dispatch(createActivity(input));
         alert('Activity created!');
         setInput({
@@ -109,7 +118,7 @@ export default function CreateActivity () {
 
             <form onSubmit={(e) => handleSubmit(e)}>
                 <div>
-                    <label>Name of the activity:</label>
+                    <label>Touristic activity:</label>
                     <input type='text' placeholder='Activity...' value={input.name} name='name' onChange = {(e) => handleChange(e)}/>
                     
                 {errors.name && (
@@ -141,19 +150,20 @@ export default function CreateActivity () {
                 <div>
                     <label>Season:</label>
                         <label>
-                        <input type='checkbox' value='Spring' name='Spring' onChange={(e) => handleCheck(e)}/>
+                        <input type='checkbox' 
+                        id= 'Spring' value='Spring' name='Spring' onChange={(e) => handleCheck(e)}/>
                         Spring
                         </label>
                         <label>
-                        <input type='checkbox' value='Summer' name='Summer' onChange={(e) => handleCheck(e)}/>
+                        <input type='checkbox' value='Summer' id= 'Summer' name='Summer' onChange={(e) => handleCheck(e)}/>
                         Summer
                         </label>
                         <label>
-                        <input type='checkbox' value='Fall' name='Fall' onChange={(e) => handleCheck(e)}/>
+                        <input type='checkbox' value='Fall' name='Fall' id= 'Fall' onChange={(e) => handleCheck(e)}/>
                         Fall
                         </label>
                         <label>
-                        <input type='checkbox' value='Winter' name='Winter' onChange={(e) => handleCheck(e)}/>
+                        <input type='checkbox' value='Winter' name='Winter' id= 'Winter' onChange={(e) => handleCheck(e)}/>
                         Winter
                         </label>
                 </div>
@@ -181,7 +191,7 @@ export default function CreateActivity () {
                     }
                 </div>
 
-                <button type='submit'>Create activity</button>
+                <input type='submit'  name='submit' disabled={!input.name || !input.difficulty || !input.duration || !input.country || !input.season}/>
             </form>
         </div>
     )

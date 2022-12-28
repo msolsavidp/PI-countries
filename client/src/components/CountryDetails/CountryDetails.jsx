@@ -18,8 +18,10 @@ export default function CountryDetail ({id}){
     const activities = useSelector ((state) => state.activities);
     console.log(myCountry);
     console.log(activities);
+    console.log(myCountry.activities)
 
-    // let filteredActivity = if (activities.includes(myCountry.name) activitiesfilter(a => a.country.includes(myCountry.name));
+    // let filteredActivity = if (activities.country.includes(myCountry.name)) activitiesfilter(a => a.country.includes(myCountry.name));
+    // if (activities.country.includes(myCountry.name)) {let filteredActivities= activities.filter(a => a.country.includes(myCountry.name))};
 
     return (
         <div>
