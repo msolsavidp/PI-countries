@@ -41,11 +41,12 @@ export default function rootReducer (state = initialState, action){
             };
 
         case FILTER_BY_CONTINENT:
+            ///que no acumule
             const allCountries = state.allCountries;
             const countriesFilteredByContinent = action.continent === 'All' ? allCountries : allCountries.filter (c => c.continent === action.continent);
             return {
                 ...state,
-                countries: countriesFilteredByContinent
+                allCountries: countriesFilteredByContinent
             };
 
         case FILTER_BY_ACTIVITY:

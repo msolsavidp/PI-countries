@@ -23,6 +23,17 @@ export default function CreateActivity () {
     const activities = useSelector(state => state.activities);
     const countries = useSelector(state => state.countries);
 
+    let orderedCountries = countries.sort(function(a, b) {
+        if (a.name > b.name){
+            return 1;
+        }
+        if (b.name > a.name){
+            return -1
+        }
+        return 0;
+    });
+
+    console.log(orderedCountries);
     //Estado para manejar los checks
     // const [isChecked, setIsChecked] = useState(false);
     const [errors, setErrors] = useState({});
@@ -72,16 +83,16 @@ export default function CreateActivity () {
         }));
     };
 
-    const handleDifficulty = (e) => {
-        setInput({
-            ...input,
-            difficulty: e.target.value
-        });
-        setErrors(validate({
-            ...input,
-            difficulty: e.target.value
-        }));
-    };
+    // const handleDifficulty = (e) => {
+    //     setInput({
+    //         ...input,
+    //         difficulty: e.target.value
+    //     });
+    //     setErrors(validate({
+    //         ...input,
+    //         difficulty: e.target.value
+    //     }));
+    // };
 
     const handleDelete = (el) => {
         setInput({
@@ -129,14 +140,8 @@ export default function CreateActivity () {
 
 
                 <div>
-                    <label>Difficulty:</label>
-                    <select name='difficulty' onChange={ (e)=>handleDifficulty(e) }>
-                        <option value= {1}>1</option>
-                        <option value= {2}>2</option>
-                        <option value= {3}>3</option>  
-                        <option value= {4}>4</option>  
-                        <option value= {5}>5</option> 
-                    </select>
+                    <label>Difficulty(Easy -> Super Hard):</label>
+                    <input type= 'range' name='difficulty' min = '1' max= '5' value={input.difficulty}onChange={ (e)=>handleChange(e) }/>
                     {errors.difficulty && (
                     <p>{errors.difficulty}</p>
                 )}
@@ -172,7 +177,7 @@ export default function CreateActivity () {
                     <label>Country:</label>
                     <select name='country' onChange={ (e)=>handleSelect(e) }>
                     {/* <input type='text' placeholder='country' value={input.country} name='country' onChange = {(e) => handleChange(e)}/> */}
-                    {countries.map((c) => (
+                    {orderedCountries.map((c) => (
                         <option value= {c.name}>{c.name}</option>
                     ))}
                     </select>

@@ -14,7 +14,6 @@ export default function Home () {
     const allCountries = useSelector((state) => state.countries);
     const activities = useSelector((state)  => state.activities)
     // console.log(allCountries)
-
     //Estados locales
     //Seteo el orden local como vacío para que cambie cuando hago el filtrado por orden y me vuelva a renderizar las páginas sino no funciona no se me re renderiza la pagina cuando ordeno ascendente o descendente
     const [order, setOrder] = useState ('');
@@ -49,6 +48,7 @@ export default function Home () {
     const handleContinentFilter = async (e) => {
         await dispatch(getCountries());
         dispatch(filterByContinent(e.target.value));
+        setCurrentPage(1);
     };
 
     // //Otra opción en lugar de usar el async await es crear un estado global de all COuntries que siempre me traiga todos los países y trabajar desde ese para luego filtrar entonces la funcion sería la siguiente:
@@ -59,7 +59,8 @@ export default function Home () {
 
     const handleFilterByActivity = (e) =>{
         dispatch(filterByActivity(e.target.value));
-        console.log(e.target.value)
+        console.log(e.target.value);
+        setCurrentPage(1);
     };
 
     const handleSort = (e) => {
@@ -82,8 +83,10 @@ export default function Home () {
             <Link to= '/activities'>
                 Create Activity
             </Link>
-            <h1>Api Countries</h1>
-            <button onClick={e => {handleClick(e)}}> Refresh </button>
+            <div className={s.titleh1}>
+                <h1>Api Countries</h1>
+            </div>
+            <button className={s.button} onClick={e => {handleClick(e)}}> Refresh </button>
 
             <SearchBar/>
             
@@ -116,6 +119,15 @@ export default function Home () {
                     <option value='population_desc'>País por población (Desc)</option>
                 </select>
 
+                <div className={s.pagination}>
+                <Pagination 
+                countriesPerPage = { countriesPerPage }
+                allCountries = { allCountries.length }
+                pagination = { pagination }
+                />
+                </div>
+
+
                 {
                     currentCountries?.map (c => 
                         { 
@@ -132,7 +144,7 @@ export default function Home () {
 
             </div>
 
-            <div className={s.paginado}>
+            <div className={s.pagination}>
                 <Pagination 
                 countriesPerPage = { countriesPerPage }
                 allCountries = { allCountries.length }
