@@ -5,6 +5,7 @@ const initialState = {
     countries: [],
     countryDetail:[],
     allCountries: [],
+    countriesByContinent: [],
     activities: []
 };
 
@@ -14,7 +15,8 @@ export default function rootReducer (state = initialState, action){
             return {
                 ...state,
                 countries: action.payload,
-                allCountries: action.payload
+                allCountries: action.payload,
+                countriesByContinent: action.payload
             };
 
         case GET_COUNTRY_DETAIL:
@@ -49,13 +51,15 @@ export default function rootReducer (state = initialState, action){
             // console.log(countriesFilteredByContinent)
             return {
                 ...state,
+                countriesByContinent: countriesFilteredByContinent,
                 countries: countriesFilteredByContinent
             };
 
         case FILTER_BY_ACTIVITY:
             //Tomo el estado allCountries para que no me filtre sobre filtrado
-            const countries = state.allCountries;
-            const countriesFilteredByActivity =  countries.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
+            // const allcountr = state.allCountries;
+            const countriesToFilter = state.countriesByContinent;
+            const countriesFilteredByActivity =  action.activity === 'All' ? countriesToFilter : countriesToFilter.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
             // console.log(countriesFilteredByActivity)
             return{
                 ...state,

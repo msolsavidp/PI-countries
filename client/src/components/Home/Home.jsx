@@ -81,14 +81,14 @@ export default function Home () {
     };
 
     return (
-        <div>
-            <Link to= '/activities'>
-                Create Activity
-            </Link>
+        <div className={s.backgr}>
+
             <div className={s.titleh1}>
                 <h1>Api Countries</h1>
             </div>
-            <button className={s.button} onClick={e => {handleClick(e)}}> Refresh </button>
+            <Link className={s.button} to= '/activities'>
+                Create Activity
+            </Link>
 
             <SearchBar/>
             
@@ -109,6 +109,7 @@ export default function Home () {
                 </select>
 
                 <select onChange = {e => {handleFilterByActivity(e)}}>
+                    <option value='All'>All</option>
                     {/* <option value='activitytype_asc'>País por tipo de actividad turística (Asc)</option>
                     <option value='activitytype_desc'>País por tipo de actividad (Desc)</option> */}
                     {activities.map((a) => (
@@ -129,7 +130,7 @@ export default function Home () {
                 />
                 </div>
 
-
+                <div className={s.cardContainer}>
                 {
                     currentCountries?.map (c => 
                         { 
@@ -143,6 +144,7 @@ export default function Home () {
                         })
                 }
                 {/* {console.log(allCountries)} */}
+                </div>
 
             </div>
 

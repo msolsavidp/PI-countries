@@ -1,7 +1,33 @@
+.backgr{
+    background-image: url('../Images/globe.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 120vmax;
+    top: 0;
+    bottom: 0;  
+    position: absolute;
+    flex-direction: column;
+    margin: 0
+    
+}
+
+.buttonCreate{
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
 .titleh1{
     font-size: 35px;
     /* font-weight: 400; */
-    background-image: linear-gradient(to left, #0b0f80, #a19ce9);
+    background-image: linear-gradient(to bottom right, #fefefe, #393585);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
@@ -29,6 +55,44 @@
     cursor: pointer
   }
 
+
+.pagination {
+    /* display: flex; */
+    justify-content: center;
+    margin: 0px;
+    padding: 5px;
+}
+
+.cardContainer{
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 
 
 .filtros {
@@ -52,11 +116,3 @@
     margin: 8px;
 
 } */
-
-.pagination {
-    /* display: flex; */
-    justify-content: center;
-    margin: 0px;
-    padding: 5px;
-}
-

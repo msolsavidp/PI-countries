@@ -35,8 +35,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 // const { Pokemon } = sequelize.models;
 const { Country, Activity } = sequelize.models;
 
-modelCountry(sequelize); //Checkear
-modelActivity(sequelize); //Checkear
+modelCountry(sequelize); 
+modelActivity(sequelize); 
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);

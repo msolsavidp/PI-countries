@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountryDetail, getActivities } from '../../Redux/actions';
+import s from './CountryDetails.module.css';
 
 export default function CountryDetail ({id}){
 
@@ -24,34 +25,45 @@ export default function CountryDetail ({id}){
     // if (activities.country.includes(myCountry.name)) {let filteredActivities= activities.filter(a => a.country.includes(myCountry.name))};
 
     return (
-        <div>
+
+        <div className={s.backr}>
+        <div className={s.detailCard}>
+            <div className={s.container}>
             {
                 myCountry ?
                 <div>
-                    <h1>{myCountry.name}</h1>
-                    <img src={myCountry.image} alt={myCountry.name}/>
-                    <h3>Continent: {myCountry.continent}</h3>
-                    <h3>Capital: {myCountry.capital}</h3>
-                    <h5>Subregion: {myCountry.subregion}</h5>
-                    <h5>Population: {myCountry.population} inhabitants</h5>
-                    <h5>Area: {myCountry.area} km2</h5>
-                    <h6>Activities: {myCountry.activities?.map(a => (
-                        <div>
-                            <p>Activity: {a.name}</p>
-                            <p>Diffitulty: {a.difficulty} (1 easy - 5 super hard)</p>
-                            <p>Duration: {a.duration} hours</p>
-                            <p>Season: {a.season}</p>
+                    <h1 className={s.name}>{myCountry.name}</h1>
+                    <img className={s.flag} src={myCountry.image} alt={myCountry.name}/>
+                    <h3 className={s.continent}>Continent: {myCountry.continent}</h3>
+                    <h3 className={s.detail}>Capital: {myCountry.capital}</h3>
+                    <h5 className={s.detail}>Subregion: {myCountry.subregion}</h5>
+                    <h5 className={s.detail}>Population: {myCountry.population} inhabitants</h5>
+                    <h5 className={s.detail}>Area: {myCountry.area} km2</h5>
+
+
+                    <h6 className={s.activitiesTitle}>Activities {myCountry.activities?.map(a => (
+                        <div className={s.actContainer}>
+                            <p className={s.activityName}>Activity: {a.name}</p>
+                            <p className={s.detail}>Diffitulty: {a.difficulty} (1 easy - 5 super hard)</p>
+                            <p className={s.detail}>Duration: {a.duration} hours</p>
+                            <p className={s.detail}>Season: {a.season}</p>
                         </div>
                         ))}
                         </h6>
+
                 </div>
                 
                 : <p>Loading...</p>
             } 
+            </div>
 
+        </div>
+        <div>
             <Link to='/home'>
-                <button>Back Home</button>
+            <button className={s.btnHome}>Back Home</button>
             </Link>
         </div>
+    </div>
+
     )
 };
