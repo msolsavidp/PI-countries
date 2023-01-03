@@ -42,17 +42,21 @@ export default function rootReducer (state = initialState, action){
 
         case FILTER_BY_CONTINENT:
             ///que no acumule
-            const allCountries = state.allCountries;
-            const countriesFilteredByContinent = action.continent === 'All' ? allCountries : allCountries.filter (c => c.continent === action.continent);
+            const countr = state.allCountries;
+            // console.log(countr);
+
+            const countriesFilteredByContinent = action.continent === 'All' ? countr : countr.filter (c => c.continent === action.continent);
+            // console.log(countriesFilteredByContinent)
             return {
                 ...state,
-                allCountries: countriesFilteredByContinent
+                countries: countriesFilteredByContinent
             };
 
         case FILTER_BY_ACTIVITY:
+            //Tomo el estado allCountries para que no me filtre sobre filtrado
             const countries = state.allCountries;
-            const countriesFilteredByActivity =  state.countries.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
-            console.log(countriesFilteredByActivity)
+            const countriesFilteredByActivity =  countries.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
+            // console.log(countriesFilteredByActivity)
             return{
                 ...state,
                 countries: countriesFilteredByActivity

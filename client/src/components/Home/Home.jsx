@@ -45,8 +45,10 @@ export default function Home () {
     };
 
     //Hice esta función asíncrona porque primero me debo traer todos los países y después filtrarlos, si solo tengo el dispatch de filtrado luego del primer filtrado no puedo volver a hacerlo porque trata de hacerlo sobre los mismos países ya filtrados entonces no trae nada, es como si tuviera que hacer un refresh
-    const handleContinentFilter = async (e) => {
-        await dispatch(getCountries());
+    const handleContinentFilter =  (e) => {
+        // dispatch(getCountries());
+        e.preventDefault();
+        console.log(e.target.value)
         dispatch(filterByContinent(e.target.value));
         setCurrentPage(1);
     };

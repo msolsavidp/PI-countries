@@ -10,10 +10,52 @@ module.exports = router;
 
 router.get('/', async (req, res) => {
     let activities = await Activity.findAll({
-        attributes:["name", "difficulty", "duration", "season", "country"]
+        attributes:["name", "difficulty", "duration", "season"]
         });
         res.json(activities)
 });
+
+router.post ('/', async (req, res) => {
+        //A country lo recibo del formulario del front
+        let { name, difficulty, duration, season, country } = req.body;
+    
+        //////Cómo manejo el hecho de que pueden pasarme una actividad que ya existe para el mismo país ----- VER
+        //////Una actividad puede pertenecer a más de una estación -- con el ENUM eso me tira error 
+            
+        //busco si la actividad ya está en la base de datos
+
+        let foundActivity= await Activity.findOne({
+            where:{
+                name:name
+            }
+        });
+        console.log(foundActivity)
+
+
+        let foundCountry = await Country.findAll({
+            where: {
+                name: country
+            }
+        });
+
+        if (!foundActivity) {    
+            let newActivity= await Activity.create({
+            name,
+            difficulty,
+            duration,
+            season,
+        });
+
+        //Linkeo la actividad con el country
+        let activityAdd = await newActivity.addCountries(foundCountry);
+        res.send('Activity added.')
+    }
+    //Si la actividad fue encontrada la linkeo al país
+    else {
+        await foundActivity.addCountries(foundCountry);
+        res.send('Activity added.')
+    };
+    });
 
 
 // router.post ('/', async (req, res) => {
@@ -60,33 +102,33 @@ router.get('/', async (req, res) => {
 //     //////Una actividad puede pertenecer a más de una estación -- con el ENUM eso me tira error
 // });
 
-router.post ('/', async (req, res) => {
-    //A country lo recibo del formulario del front
-    let { name, difficulty, duration, season, country } = req.body;
+// router.post ('/', async (req, res) => {
+//     //A country lo recibo del formulario del front
+//     let { name, difficulty, duration, season, country } = req.body;
 
-    //////Cómo manejo el hecho de que pueden pasarme una actividad que ya existe para el mismo país ----- VER
-    //////Una actividad puede pertenecer a más de una estación -- con el ENUM eso me tira error
-    try{
-    let newActivity = await Activity.create({
-        name,
-        difficulty,
-        duration,
-        season,
-        country
-    });
+//     //////Cómo manejo el hecho de que pueden pasarme una actividad que ya existe para el mismo país ----- VER
+//     //////Una actividad puede pertenecer a más de una estación -- con el ENUM eso me tira error
+//     try{    
+//     let newActivity = await Activity.create({
+//         name,
+//         difficulty,
+//         duration,
+//         season,
+//         country
+//     });
 
-    let countriesList = await Country.findAll({
-        where: {
-            name: country
-        }
-    });
-    //Linkeo la actividad con el country
-    newActivity.addCountries(countriesList);
-    res.send('Activity added.')
-    } catch (e) {
-        res.status(404).json(e);
-    };
-});
+//     let countriesList = await Country.findAll({
+//         where: {
+//             name: country
+//         }
+//     });
+//     //Linkeo la actividad con el country
+//     newActivity.addCountries(countriesList);
+//     res.send('Activity added.')
+//     } catch (e) {
+//         res.status(404).json(e);
+//     };
+// });
 
 
 
