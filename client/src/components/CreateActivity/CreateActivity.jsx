@@ -24,7 +24,6 @@ function validate (input){
 export default function CreateActivity () {
     const dispatch = useDispatch ();
     const history = useHistory();
-    // const activities = useSelector(state => state.activities);
     const countries = useSelector(state => state.countries);
 
     let orderedCountries = countries.sort(function(a, b) {
@@ -38,8 +37,7 @@ export default function CreateActivity () {
     });
 
     // console.log(orderedCountries);
-    //Estado para manejar los checks
-    // const [isChecked, setIsChecked] = useState(false);
+
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState ({
         name: '', 

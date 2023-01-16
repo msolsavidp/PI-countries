@@ -1,9 +1,9 @@
 .backgr{
-    background-image: url('../Images/globe.jpg');
+    background-image: url('../Images/light-globe.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
-    height: 120vmax;
+    height: 140vmax;
     top: 0;
     bottom: 0;  
     position: absolute;
@@ -12,31 +12,21 @@
     
 }
 
-.buttonCreate{
-    font: bold 11px Arial;
-    text-decoration: none;
-    background-color: #EEEEEE;
-    color: #333333;
-    padding: 2px 6px 2px 6px;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #CCCCCC;
-}
 
 .titleh1{
     font-size: 35px;
     /* font-weight: 400; */
-    background-image: linear-gradient(to bottom right, #fefefe, #393585);
-    color: transparent;
+    /* background-image: linear-gradient(to bottom right, #fefefe, #393585); */
+    color: white;
     background-clip: text;
     -webkit-background-clip: text;
+    margin-bottom: 10px
  }
 
 .button{
-    background-color: #5769cb;
+    background-color: white;
     border: none;
-    color: white;
+    color: black;
     padding: 8px 16px;
     text-align: center;
     text-decoration: none;
@@ -55,6 +45,13 @@
     cursor: pointer
   }
 
+  .select{
+    max-width: 250px;
+    border-radius: 5px;
+    border-color: #07648f;
+    padding: 3px;
+    margin: 8px;
+  }
 
 .pagination {
     /* display: flex; */

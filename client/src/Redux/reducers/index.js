@@ -56,8 +56,7 @@ export default function rootReducer (state = initialState, action){
             };
 
         case FILTER_BY_ACTIVITY:
-            //Tomo el estado allCountries para que no me filtre sobre filtrado
-            // const allcountr = state.allCountries;
+            //Tomo el estado para que no me filtre sobre filtrado
             const countriesToFilter = state.countriesByContinent;
             const countriesFilteredByActivity =  action.activity === 'All' ? countriesToFilter : countriesToFilter.filter ((c) =>{return c.activities.some((a) => a.name === action.activity)});
             // console.log(countriesFilteredByActivity)

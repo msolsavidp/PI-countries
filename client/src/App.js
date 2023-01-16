@@ -13,7 +13,6 @@ function App() {
       <Route exact path ='/' component={LandingPage} />
       <Route path = '/home' component = {Home} />
       <Route path= '/activities' component = {CreateActivity} />
-      {/* <Route path= '/countries/:id' component = {CountryDetails} /> */}
       <Route path='/countries/:id' render={({match}) => <CountryDetails id={match.params.id}/>} 
  />
     </div>

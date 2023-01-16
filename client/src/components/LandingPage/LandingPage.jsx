@@ -6,7 +6,7 @@ export default function LandingPage() {
     return (
         <div className={s.backgr}>
             <div className={s.title}>
-                <h1>Countries' API</h1>
+                <h1>API Countries</h1>
             </div>
             <div>
                 <Link to ='/home'>

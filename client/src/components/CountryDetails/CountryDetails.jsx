@@ -6,7 +6,6 @@ import s from './CountryDetails.module.css';
 
 export default function CountryDetail ({id}){
 
-    // let id = match.params.id;
     console.log(id);
     const dispatch = useDispatch();
 
@@ -21,8 +20,6 @@ export default function CountryDetail ({id}){
     console.log(activities);
     console.log(myCountry.activities)
 
-    // let filteredActivity = if (activities.country.includes(myCountry.name)) activitiesfilter(a => a.country.includes(myCountry.name));
-    // if (activities.country.includes(myCountry.name)) {let filteredActivities= activities.filter(a => a.country.includes(myCountry.name))};
 
     return (
 
@@ -39,6 +36,7 @@ export default function CountryDetail ({id}){
                     <h5 className={s.detail}>Subregion: {myCountry.subregion}</h5>
                     <h5 className={s.detail}>Population: {myCountry.population} inhabitants</h5>
                     <h5 className={s.detail}>Area: {myCountry.area} km2</h5>
+                    <h5 className={s.detail}>Code: {myCountry.id}</h5>
 
 
                     <h6 className={s.activitiesTitle}>Activities {myCountry.activities?.map(a => (
@@ -59,6 +57,12 @@ export default function CountryDetail ({id}){
 
         </div>
         <div>
+        <div>
+            <Link to= '/activities'>
+            <button className={s.btnHome}>Create touristic activity</button>                
+            </Link>
+        </div>
+
             <Link to='/home'>
             <button className={s.btnHome}>Back Home</button>
             </Link>

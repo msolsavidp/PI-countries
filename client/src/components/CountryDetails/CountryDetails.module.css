@@ -1,5 +1,5 @@
 .backr{
-    background-image: url('../Images/Map.jpg');
+    background-image: url('../Images/globe-3.jpg');
     background-size: cover;
     width: auto;
     height: 150vh;
@@ -24,7 +24,7 @@
 
 .container{
     margin-top: -30px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     padding-left: 50px;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .detail{
-    color: rgb(58, 76, 90);
+    color: black(58, 76, 90);
     margin: 10px;
 }
 
@@ -70,7 +70,7 @@
 }
 
 .activitiesTitle{
-    color: rgb(58, 76, 90);
+    color: black;
     text-align: center;
 }
 
@@ -81,23 +81,18 @@
 }
 
 .btnHome{
-    background-color: #5769cb;
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    text-align: center;
+    color: black;
+    float: center;
+    padding: 8px 12px;
     text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    margin-top: 0;
-    /* margin-bottom: 10px */
+    border-radius: 5px;
+    border-color: rgba(240, 248, 255, 0.397);
+    background-color: rgba(128, 128, 128, 0.52);
+    color: white;
 }
 
 .btnHome:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid #5769cb;
+    background-color: grey;
+    color: white;
     cursor: pointer
 }

@@ -12,6 +12,3 @@ export default function Card ({id, name, image, continent}) {
     );
 };
 
-// module.exports = {
-//     Card
-// }

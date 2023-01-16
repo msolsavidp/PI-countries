@@ -51,23 +51,10 @@ export function getActivities (){
     };
 };
 
-// export function getCountryActivity(countryId){
-//     return async function(dispatch){
-//         let activity = await axios.get(`http://localhost:3001/activities/?idCountry=${country.id}`)
-//         return dispatch({
-//             type:
-//         })
-//     }
-// }
 
 export function createActivity (payload) {
     return async function (dispatch){
         let activity = await axios.post('http://localhost:3001/activities', payload);
-        // console.log(activity)
-        // return dispatch({
-        //     type: CREATE_ACTIVITY,
-        //     payload: activity.data
-        // });
         return activity;
 }};
 
@@ -102,6 +89,31 @@ export function orderByPopulation (order) {
     };
 };
 
-// module.exports = {
-//     getCountries
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export function getCountryActivity(countryId){
+//     return async function(dispatch){
+//         let activity = await axios.get(`http://localhost:3001/activities/?idCountry=${country.id}`)
+//         return dispatch({
+//             type:
+//         })
+//     }
 // }

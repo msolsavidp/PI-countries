@@ -53,12 +53,6 @@ export default function Home () {
         setCurrentPage(1);
     };
 
-    // //Otra opción en lugar de usar el async await es crear un estado global de all COuntries que siempre me traiga todos los países y trabajar desde ese para luego filtrar entonces la funcion sería la siguiente:
-    // const handleContinentFilter = async (e) => {
-    //     await dispatch(getCountries());
-    //     dispatch(filterByContinent(e.target.value));
-    // };
-
     const handleFilterByActivity = (e) =>{
         dispatch(filterByActivity(e.target.value));
         console.log(e.target.value);
@@ -86,14 +80,17 @@ export default function Home () {
             <div className={s.titleh1}>
                 <h1>Api Countries</h1>
             </div>
-            <Link className={s.button} to= '/activities'>
-                Create Activity
-            </Link>
 
-            <SearchBar/>
+            <div>
+                <Link className={s.button} to= '/activities'>
+                    Create Activity
+                </Link>
+            </div>
+
+            <SearchBar setCurrentPage={setCurrentPage}/>
             
             <div>
-             <select onChange= {e => handleContinentFilter(e)}>
+             <select className= {s.select} onChange= {e => handleContinentFilter(e)}>
                     <option value='All'> All </option>
                     <option value='Africa'>Africa</option>
                     <option value='Americas'>Americas</option>
@@ -103,30 +100,31 @@ export default function Home () {
                     <option value='Oceania'>Oceania</option>
                 </select>
 
-                <select onChange = {e => handleSort(e)}>
+                <select className= {s.select} onChange = {e => handleSort(e)}>
                     <option value='country_asc'>País en orden alfabético (Asc)</option>
                     <option value='country_desc'>País en orden alfabético (Desc)</option>
                 </select>
 
-                <select onChange = {e => {handleFilterByActivity(e)}}>
+                <select className= {s.select} onChange = {e => {handleFilterByActivity(e)}}>
                     <option value='All'>All</option>
-                    {/* <option value='activitytype_asc'>País por tipo de actividad turística (Asc)</option>
-                    <option value='activitytype_desc'>País por tipo de actividad (Desc)</option> */}
-                    {activities.map((a) => (
+                 {activities.map((a) => (
                         <option value={a.name}>{a.name.charAt(0).toUpperCase() + a.name.slice(1)}</option>
                     ))}
                 </select>
 
-                <select onChange = {e => {handleSortByPopulation(e)}}>
+                <select className= {s.select} onChange = {e => {handleSortByPopulation(e)}}>
                     <option value='population_asc'>País por población (Asc)</option>
                     <option value='population_desc'>País por población (Desc)</option>
                 </select>
+                
 
                 <div className={s.pagination}>
                 <Pagination 
                 countriesPerPage = { countriesPerPage }
                 allCountries = { allCountries.length }
                 pagination = { pagination }
+                setCurrentPage = { setCurrentPage }
+                currentPage = { currentPage }
                 />
                 </div>
 
