@@ -1,5 +1,5 @@
 .backgr{
-    background-image: url('../Images/light-globe.jpg');
+    background-image: url('https://res.cloudinary.com/db2uxwhbq/image/upload/v1678818793/light-globe_nxa8sh.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
@@ -69,7 +69,18 @@
 }
 
 
+.Cards {
 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 
 
 

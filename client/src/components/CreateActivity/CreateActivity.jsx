@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { createActivity, getCountries, getActivities } from "../../Redux/actions";
-import s from './CreateActivity.module.css';
+import NavBar from "../NavBar/NavBar";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { Toast } from 'react-bootstrap';
+import './CreateActivity.css';
 
 function validate (input){
     let errors = {};
@@ -21,10 +25,12 @@ function validate (input){
     return errors;
 };
 
-export default function CreateActivity () {
+export default function CreateActivity ({setCurrentPage}) {
     const dispatch = useDispatch ();
     const history = useHistory();
     const countries = useSelector(state => state.countries);
+    const [showToast, setShowToast] = useState(false);
+    const toggleShowToast = () => setShowToast(!showToast);
 
     let orderedCountries = countries.sort(function(a, b) {
         if (a.name > b.name){
@@ -36,7 +42,6 @@ export default function CreateActivity () {
         return 0;
     });
 
-    // console.log(orderedCountries);
 
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState ({
@@ -99,7 +104,7 @@ export default function CreateActivity () {
         return alert ('You need to complet all the fields.');
 
         dispatch(createActivity(input));
-        alert('Activity created!');
+        toggleShowToast();
         setInput({
             name: '', 
             difficulty: '', 
@@ -107,66 +112,59 @@ export default function CreateActivity () {
             season: '', 
             country: []
         });
+        setTimeout(() => {
+            history.push('/home');
+          }, 2000);
     };
 
     return (
-        <div className={s.backgr}>
-            <div className={s.container}>
+        <div className="backgroundActivity">
+            <NavBar setCurrentPage={setCurrentPage}/>
+            
+            <div className="containerActivity">
             <h1>Create an activity</h1>
 
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <div>
-                    <label>Touristic activity: </label>
-                    <input type='text' placeholder='Activity...' value={input.name} name='name' onChange = {(e) => handleChange(e)}/>
-                </div>
+            <Form onSubmit={(e) => handleSubmit(e)}>
+                <Form.Group className="mb-3" controlId="formActivity">
+                    <Form.Label>Touristic activity: </Form.Label>
+                    <Form.Control type='text' placeholder='Write the touristic activity' value={input.name} name='name' onChange = {(e) => handleChange(e)}/>
+                </Form.Group>
 
-                <div>
-                    <label>Difficulty: </label>
-                    <select name= 'difficulty' value={input.difficulty} onChange = {(e) => handleSelect(e)}>
+                <Form.Group className="mb-3" controlId="formDifficulty">
+                    <Form.Label>Difficulty: </Form.Label>
+                    <Form.Select name= 'difficulty' value={input.difficulty} onChange = {(e) => handleSelect(e)}>
                         <option value= '1'>Super easy</option>
                         <option value= '2'>Easy</option>
                         <option value= '3'>Medium</option>
                         <option value= '4'>Hard</option>
                         <option value= '5'>Super hard</option>
-                    </select>
+                    </Form.Select>
+                </Form.Group>
 
-                </div>
-
-                <div>
-                    <label>Duration: </label>
-                    <input type='number' placeholder='Number' value={input.duration} name='duration' onChange = {(e) => handleChange(e)} min='1' max='24' />
-                </div>
+                <Form.Group className="mb-3" controlId="formDuration">
+                    <Form.Label>Duration: </Form.Label>
+                    <Form.Control type='number' placeholder='How many hours can you practise it?' value={input.duration} name='duration' onChange = {(e) => handleChange(e)} min='1' max='24' />
+                </Form.Group>
                 
+                
+                <Form.Group className="mb-3" controlId="formDuration">
+                    <Form.Label>Season: </Form.Label>
+                    <div key="inline-radio" className="mb-3">
+                        <Form.Check  inline type='radio' label='Spring' id= 'Spring' value='Spring' name='season' onChange={(e) => handleChange(e)}/>
+                        <Form.Check  inline type='radio' label='Summer' value='Summer' id= 'Summer' name='season' onChange={(e) => handleChange(e)}/>
+                        <Form.Check  inline type='radio' label='Fall' value='Fall' name='season' id= 'Fall' onChange={(e) => handleChange(e)}/>
+                        <Form.Check  inline type='radio' label='Winter' value='Winter' name='season' id= 'Winter' onChange={(e) => handleChange(e)}/>
+                    </div>
+                </Form.Group>
 
-                <div>
-                    <label>Season: </label>
-                        <label>
-                        <input type='radio' 
-                        id= 'Spring' value='Spring' name='season' onChange={(e) => handleChange(e)}/>
-                        Spring
-                        </label>
-                        <label>
-                        <input type='radio' value='Summer' id= 'Summer' name='season' onChange={(e) => handleChange(e)}/>
-                        Summer
-                        </label>
-                        <label>
-                        <input type='radio' value='Fall' name='season' id= 'Fall' onChange={(e) => handleChange(e)}/>
-                        Fall
-                        </label>
-                        <label>
-                        <input type='radio' value='Winter' name='season' id= 'Winter' onChange={(e) => handleChange(e)}/>
-                        Winter
-                        </label>
 
-                </div>
-
-                <div>
-                    <label>Country: </label>
-                    <select name='country' onChange={ (e)=>handleSelect(e) }>
+                <Form.Group className="mb-3" controlId="formCountry">
+                    <Form.Label>Country: </Form.Label>
+                    <Form.Select name='country' onChange={ (e)=>handleSelect(e) }>
                     {orderedCountries.map((c) => (
                         <option value= {c.name}>{c.name}</option>
                     ))}
-                    </select>   
+                    </Form.Select>   
 
                     {
                         input.country.map( c =>(
@@ -176,21 +174,28 @@ export default function CreateActivity () {
                             </div>
                         ))
                     }
-                </div>
+                </Form.Group>
 
-                <input className={s.button} key='submit' type='submit'  name='submit' />
+                <Button variant= "outline-dark" key='submit' type='submit'  name='submit' > Submit </Button>
 
-                {errors.name && ( <p className={s.errors}>{errors.name}</p>)}
-                {errors.difficulty && ( <p className={s.errors}>{errors.difficulty}</p>)}
-                {errors.duration && ( <p className={s.errors}>{errors.duration}</p>)}
-                {errors.country && ( <p className={s.errors}>{errors.country}</p>)}
-                {errors.season && ( <p className={s.errors}>{errors.season}</p>)}
-            </form>
-            <Link to='/home'>
-                <button className={s.button}>Return Home</button>
-            </Link>
+                {showToast && (
+                    <Toast className='toast prefers-reduced-motion: no-preference' show={showToast} onClose={toggleShowToast} delay={2000} autohide>
+                        <Toast.Header>
+                            {/* <img src={process.env.PUBLIC_URL + "/favicon.ico"} className="rounded me-2" alt="brand logo" /> */}
+                            <strong className="me-auto">Countries App</strong>
+                            <small>just now</small>
+                        </Toast.Header>
+                        <Toast.Body>You've created a touristic activity!</Toast.Body>
+                    </Toast>
+                )}
+
+                {errors.name && ( <p className="errors">{errors.name}</p>)}
+                {errors.difficulty && ( <p className="errors">{errors.difficulty}</p>)}
+                {errors.duration && ( <p className="errors">{errors.duration}</p>)}
+                {errors.country && ( <p className="errors">{errors.country}</p>)}
+                {errors.season && ( <p className="errors">{errors.season}</p>)}
+            </Form>
             </div>
-
         </div>
     )
 

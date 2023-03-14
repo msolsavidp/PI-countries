@@ -1,10 +1,14 @@
 import React, {useEffect} from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountryDetail, getActivities } from '../../Redux/actions';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import s from './CountryDetails.module.css';
+import NavBar from '../NavBar/NavBar';
 
-export default function CountryDetail ({id}){
+export default function CountryDetail ({id, setCurrentPage}){
 
     console.log(id);
     const dispatch = useDispatch();
@@ -16,14 +20,19 @@ export default function CountryDetail ({id}){
 
     const myCountry = useSelector ((state) => state.countryDetail);
     const activities = useSelector ((state) => state.activities);
-    console.log(myCountry);
-    console.log(activities);
-    console.log(myCountry.activities)
+    // console.log(myCountry);
+    // console.log(activities);
+    // console.log(myCountry.activities)
+    const [showActivityModal, setShowActivityModal] = useState(false);
 
+    const handleShowActivityClick = (e) => {
+        setShowActivityModal(true);
+    };
 
     return (
 
         <div className={s.backr}>
+            <NavBar setCurrentPage={setCurrentPage}/>
         <div className={s.detailCard}>
             <div className={s.container}>
             {
@@ -37,17 +46,35 @@ export default function CountryDetail ({id}){
                     <h5 className={s.detail}>Population: {myCountry.population} inhabitants</h5>
                     <h5 className={s.detail}>Area: {myCountry.area} km2</h5>
                     <h5 className={s.detail}>Code: {myCountry.id}</h5>
+                    <div>
+            <Button variant="outline-light" onClick={(e) => handleShowActivityClick(e) }>Show touristic activities</Button>                
+        </div>
 
+                    <Modal show={showActivityModal} onHide={() => setShowActivityModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Touristic activities</Modal.Title>
+                        </Modal.Header>
 
-                    <h6 className={s.activitiesTitle}>Activities {myCountry.activities?.map(a => (
-                        <div className={s.actContainer}>
+                        {myCountry.activities?.map(a => (
+                        <>
+                        <Modal.Body>
                             <p className={s.activityName}>Activity: {a.name}</p>
                             <p className={s.detail}>Diffitulty: {a.difficulty} (1 easy - 5 super hard)</p>
                             <p className={s.detail}>Duration: {a.duration} hours</p>
                             <p className={s.detail}>Season: {a.season}</p>
-                        </div>
-                        ))}
-                        </h6>
+                        </Modal.Body>
+                        <hr/>
+                    </>
+                        ))}     
+                        <Modal.Footer>
+                            <Link to='/activities'>
+                            <Button variant="outline-success">Create touristic activity</Button>
+                            </Link>
+                            <Button variant="outline-danger" onClick={() => setShowActivityModal(false)}>
+                                Close
+                            </Button>
+                        </Modal.Footer> 
+                    </Modal>
 
                 </div>
                 
@@ -57,15 +84,6 @@ export default function CountryDetail ({id}){
 
         </div>
         <div>
-        <div>
-            <Link to= '/activities'>
-            <button className={s.btnHome}>Create touristic activity</button>                
-            </Link>
-        </div>
-
-            <Link to='/home'>
-            <button className={s.btnHome}>Back Home</button>
-            </Link>
         </div>
     </div>
 

@@ -8,10 +8,10 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function NavBar({setCurrentPage}) {
-
+    const location = useLocation();
     const dispatch = useDispatch();
     const [country, setCountry] = useState('');
 
@@ -32,8 +32,9 @@ function NavBar({setCurrentPage}) {
   return (
     <Navbar bg="dark" expand="lg" variant="dark" className="fixed-top">
       <Container fluid>
-            <Navbar.Brand href="/home">Countries App</Navbar.Brand>
-
+            <Navbar.Brand href="/home">
+            <img src="https://res.cloudinary.com/db2uxwhbq/image/upload/v1678818534/4417105_cdn_connected_globe_dots_earth_icon_t5oxy3.png" alt="logo" style={{ width: '30px' }} />
+             Countries App</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -42,9 +43,11 @@ function NavBar({setCurrentPage}) {
             navbarScroll
           >
             <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+            {/* <Nav.Link href="/about">About</Nav.Link> */}
+            <Nav.Link href="/activities">Create activity</Nav.Link>
           </Nav>
 
+          { location.pathname === '/home' ?
           <Form className="d-flex">
             <Form.Control
               type="search"
@@ -54,7 +57,8 @@ function NavBar({setCurrentPage}) {
               onChange = {(e) => handleInput(e)}
             />
             <Button variant="outline-light" type='submit' onClick={(e) => {handleSubmit(e)}}>Search</Button>
-          </Form>
+          </Form> : null
+      }
         </Navbar.Collapse>
       </Container>
     </Navbar>

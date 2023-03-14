@@ -7,10 +7,10 @@ import { filterByActivity, orderByName, orderByPopulation } from "../../Redux/ac
 // import './Filters.css'
 
 
-export default function SideBar({ setCurrentPage }) {
+export default function SideBar({ setCurrentPage, setOrder }) {
     const allCountries = useSelector((state) => state.countries);
     const activities = useSelector((state)  => state.activities);
-    const [order, setOrder] = useState ('');
+    // const [order, setOrder] = useState ('');
     const dispatch = useDispatch()
 
 
@@ -47,7 +47,6 @@ export default function SideBar({ setCurrentPage }) {
         setCurrentPage(1);
         setOrder(`Ordered ${e.target.value}`)
     };
-
 
     return (
         <div>
@@ -93,7 +92,7 @@ export default function SideBar({ setCurrentPage }) {
                     </li>
 
                     <li>
-                        Quantity
+                        Population
                         <br />
                         <select  name="filterQuant" id="" onChange={(e) => (handleSortByPopulation(e))} style={{ width: '80%' }} className="form-select mt-2 mb-2" >
                             <option value="population_asc" >Country by population (asc)</option>
@@ -102,9 +101,9 @@ export default function SideBar({ setCurrentPage }) {
                     </li>
                 </ul>
                 <hr />
-                <div>
+                {/* <div>
                     <button type="submit" className="btn btn-warning float-end me-4" onClick={(e) => handleClick(e)}>Filter</button>
-                </div>
+                </div> */}
 
 
             </div>
