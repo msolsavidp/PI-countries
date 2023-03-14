@@ -3,16 +3,18 @@ import { useState, useEffect } from "react";
 import {useDispatch, useSelector } from 'react-redux';
 import {getCountries, getActivities, filterByContinent, filterByActivity, orderByName, orderByPopulation} from '../../Redux/actions';
 import { Link } from 'react-router-dom';
+import NavBar from "../NavBar/NavBar";
+import SideBar from "../SideBar/SideBar";
 import Card  from '../Card/Card';
-import Pagination from "../Pagination/Pagination";
-import SearchBar from "../SearchBar/SearchBar";
+import Pagination from "../Pagination/PaginationPage";
+import {Button} from 'react-bootstrap';
 import s from './Home.module.css';
 
 export default function Home () {
 
     const dispatch = useDispatch();
     const allCountries = useSelector((state) => state.countries);
-    const activities = useSelector((state)  => state.activities)
+    const activities = useSelector((state)  => state.activities);
     // console.log(allCountries)
     //Estados locales
     //Seteo el orden local como vacío para que cambie cuando hago el filtrado por orden y me vuelva a renderizar las páginas sino no funciona no se me re renderiza la pagina cuando ordeno ascendente o descendente
@@ -39,59 +41,55 @@ export default function Home () {
         dispatch(getActivities());
     }, [dispatch]);
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        dispatch(getCountries());
-    };
 
     //Hice esta función asíncrona porque primero me debo traer todos los países y después filtrarlos, si solo tengo el dispatch de filtrado luego del primer filtrado no puedo volver a hacerlo porque trata de hacerlo sobre los mismos países ya filtrados entonces no trae nada, es como si tuviera que hacer un refresh
-    const handleContinentFilter =  (e) => {
-        // dispatch(getCountries());
-        e.preventDefault();
-        console.log(e.target.value)
-        dispatch(filterByContinent(e.target.value));
-        setCurrentPage(1);
-    };
+    // const handleContinentFilter =  (e) => {
+    //     // dispatch(getCountries());
+    //     e.preventDefault();
+    //     console.log(e.target.value)
+    //     dispatch(filterByContinent(e.target.value));
+    //     setCurrentPage(1);
+    // };
 
-    const handleFilterByActivity = (e) =>{
-        dispatch(filterByActivity(e.target.value));
-        console.log(e.target.value);
-        setCurrentPage(1);
-    };
+    // const handleFilterByActivity = (e) =>{
+    //     dispatch(filterByActivity(e.target.value));
+    //     console.log(e.target.value);
+    //     setCurrentPage(1);
+    // };
 
-    const handleSort = (e) => {
-        e.preventDefault();
-        dispatch(orderByName(e.target.value));
-        setCurrentPage(1);
-        //para que se modifique el estado local y se renderice
-        setOrder(`Ordered ${e.target.value}`)
-    };
+    // const handleSort = (e) => {
+    //     e.preventDefault();
+    //     dispatch(orderByName(e.target.value));
+    //     setCurrentPage(1);
+    //     //para que se modifique el estado local y se renderice
+    //     setOrder(`Ordered ${e.target.value}`)
+    // };
 
-    const handleSortByPopulation = (e) => {
-        e.preventDefault();
-        dispatch(orderByPopulation(e.target.value));
-        setCurrentPage(1);
-        setOrder(`Ordered ${e.target.value}`)
-    };
+    // const handleSortByPopulation = (e) => {
+    //     e.preventDefault();
+    //     dispatch(orderByPopulation(e.target.value));
+    //     setCurrentPage(1);
+    //     setOrder(`Ordered ${e.target.value}`)
+    // };
 
     return (
         <div className={s.backgr}>
 
-            <div className={s.titleh1}>
-                <h1>Api Countries</h1>
-            </div>
+            <NavBar setCurrentPage={setCurrentPage}/>
 
+            <div className="row g-3 py-2">
+                <div className="col-3 col-sm-3 col-lg-3 py-4" >
+                    <SideBar setCurrentPage={setCurrentPage} />
+                </div>
             <div>
-                <Link className={s.button} to= '/activities'>
-                    Create Activity
+                <Link to= '/activities'>
+                <Button variant="outline-light">Create Activity</Button>
                 </Link>
             </div>
-
-            <SearchBar setCurrentPage={setCurrentPage}/>
             
-            <div>
+            {/* <div>
              <select className= {s.select} onChange= {e => handleContinentFilter(e)}>
-                    <option value='All'> All </option>
+                    <option value='All'> All continents </option>
                     <option value='Africa'>Africa</option>
                     <option value='Americas'>Americas</option>
                     <option value='Antarctic'>Antarctic</option>
@@ -106,7 +104,7 @@ export default function Home () {
                 </select>
 
                 <select className= {s.select} onChange = {e => {handleFilterByActivity(e)}}>
-                    <option value='All'>All</option>
+                    <option value='All'>All activities</option>
                  {activities.map((a) => (
                         <option value={a.name}>{a.name.charAt(0).toUpperCase() + a.name.slice(1)}</option>
                     ))}
@@ -115,18 +113,7 @@ export default function Home () {
                 <select className= {s.select} onChange = {e => {handleSortByPopulation(e)}}>
                     <option value='population_asc'>País por población (Asc)</option>
                     <option value='population_desc'>País por población (Desc)</option>
-                </select>
-                
-
-                <div className={s.pagination}>
-                <Pagination 
-                countriesPerPage = { countriesPerPage }
-                allCountries = { allCountries.length }
-                pagination = { pagination }
-                setCurrentPage = { setCurrentPage }
-                currentPage = { currentPage }
-                />
-                </div>
+                </select> */}
 
                 <div className={s.cardContainer}>
                 {
@@ -146,14 +133,13 @@ export default function Home () {
 
             </div>
 
-            <div className={s.pagination}>
+            <div>
                 <Pagination 
                 countriesPerPage = { countriesPerPage }
                 allCountries = { allCountries.length }
                 pagination = { pagination }
                 />
             </div>
-
-        </div>
+            </div>
     );
 };

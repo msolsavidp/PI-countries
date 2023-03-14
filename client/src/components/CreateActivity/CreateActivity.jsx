@@ -87,12 +87,9 @@ export default function CreateActivity () {
         }
     };
 
+    //CHECKEAR
     const handleDelete = (ev, el) => {
         ev.preventDefault()
-        setInput({
-            ...input,
-            country: input.country.filter(c => c !== el)
-        });
     };
 
     const handleSubmit = (e) => {
@@ -110,7 +107,6 @@ export default function CreateActivity () {
             season: '', 
             country: []
         });
-        history.push('/home');
     };
 
     return (
